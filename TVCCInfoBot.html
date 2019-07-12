@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>TVCC Info Bot</title>
+
+    <div id="TVCCInfoBot"></div>
+
+    <link href="https://cdn.botframework.com/botframework-webchat/latest/botchat.css" rel="stylesheet" />
+
+    <style>
+        .example {
+            float: left;
+            margin-right: 20px;
+            width: 300px;
+        }
+
+            .example > h2 {
+                font-family: 'Segoe UI';
+            }
+
+        #BotChatGoesHere {
+            border: 1px solid #333;
+            float: left;
+            height: 500px;
+            position: relative;
+            width: 460px;
+        }
+
+        img {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!--<section class="example">
+        <h2>TVCC Info Portal </h2>
+        <p>
+            Demo an internal hosting of a mock-up TVCC Info web site that embbeds Lwazi Bot with Speech support.
+        </p>
+    </section>-->
+
+    <div id="TVCCInfoBot"></div>
+
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
+
+    <!-- If you do not want to use Cognitive Services library, comment out the following line -->
+    <!-- --<script src="https://cdn.botframework.com/botframework-webchat/latest/CognitiveServices.js"></script> -->
+
+    <script>
+        const params = BotChat.queryParams(location.search);
+
+        const user = {
+            id: params['userid'] || 'userid',
+            name: params['username'] || 'username'
+        };
+
+        const bot = {
+            id: params['botid'] || 'botid',
+            name: params['botname'] || 'botname'
+        };
+
+        window.botchatDebug = params['debug'] && params['debug'] === 'true';
+
+
+
+        // // Native browser speech (not supported by all browsers, no speech recognition priming support)
+        const speechOptions = {
+            speechRecognizer: new BotChat.Speech.BrowserSpeechRecognizer(),
+            speechSynthesizer: new BotChat.Speech.BrowserSpeechSynthesizer()
+        };
+
+
+        BotChat.App({
+            bot: bot,
+            locale: params['locale'],
+            resize: 'detect',
+            // sendTyping: true,    // defaults to false. set to true to send 'typing' activities to bot (and other users) when user is typing
+            speechOptions: speechOptions,
+            user: user,
+
+            directLine: {
+                domain: params['domain'],
+                secret: 'EyVIk70IDD0.cwA.2hE.JhIGUqfFbYWwob-7OxazGGHsMD21lDnCeEKGkUx2PZY',
+                token: params['t'],
+                webSocket: params['webSocket'] && params['webSocket'] === 'true' // defaults to true
+            }
+        }, document.getElementById('TVCCInfoBot')); //BotChatGoesHere
+    </script>
+</body>
+</html>
